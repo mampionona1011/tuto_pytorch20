@@ -155,10 +155,10 @@ For this NLP application, we will use the TorchText library.
 ## Setting up the environment
 
 Before we get stated, check if your hardware can handle PyTorch. Below is my hardware configuration. You can consider it as a minimum requirement and take it as a reference.
-OS: Windows7
-CPU: Pentium (R) Dual Core CPU E5800 @ 3.20 GHz
-RAM: 4GB
-GPU: None
+-OS: Windows7
+-CPU: Pentium (R) Dual Core CPU E5800 @ 3.20 GHz
+-RAM: 4GB
+-GPU: None
 
 Now, we have to install all the necessary programs and libraries. To install PyTorch, you have to install Python first. It is recommended that you download and install the latest version 
 of Python. Then you will need to install numpy, PyTorch and TorchText. They could all be installed through pip.
