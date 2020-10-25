@@ -1,4 +1,4 @@
-#Pytorch tutorial for beginners
+# Pytorch tutorial for beginners
 
 Nowadays, Artificial Intelligence is everywhere. We can find it in tools that we use in our daily existence. From electronic games, 
 online commercial services, medical diagnosis to autonomous cars, Artificial Intelligence is here for improving our life.
@@ -12,7 +12,7 @@ and last, we will learn how to use PyTorch one of the most powerful deep learnin
 some knowledge: you need to have a basic familiarity with the Python programming language and a minimum of mathematics, especially 
 as we will not go into details. 
 
-##Deep learning! What is this?
+## Deep learning! What is this?
 
 Deep learning is a part of machine learning methods based on artificial neural networks. They are inspired by information processing and 
 distributed communication nodes that we know in biological neural networks. 
