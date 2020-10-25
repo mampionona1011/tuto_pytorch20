@@ -56,20 +56,20 @@ There are a few examples of activation functions: ReLU (Rectified Linear Unit), 
 
 Deep learning has multiple applications such as: self-driving car, image recognition, language translation, medical image analysis…
 
-##How the neural network learns?
+## How the neural network learns?
 
-###Forward pass
+### Forward pass
 
 In this step, activations are calculated at every layer (sum + bias and activation) as described above. These activations flow in the forward direction from 
 the input layer to the output layer in order to generate the final output. This process is called forward pass or the propagation of information. 
 
-###Cost function
+### Cost function
 
 The cost function or loss function is used to calculate the prediction error after the forward pass step. The choice of this function depends on the type of 
 problem being treated. Once the computation of loss is complete, the neural network corrects the weights to minimize error as much as possible via a 
 process called back-propagation.
 
-###Backward pass
+### Backward pass
 
 The backward pass or back-propagation is a step that happens after the forward pass. It is used to compute the gradient in different layers of the network. 
 It is important to note that only the information from the loss function, not the information from the input, flows backward in the whole network. Once the gradient 
@@ -80,22 +80,22 @@ The training of a neural network is the basic part in the deep learning procedur
   <img src="img/img5.png" width="596" alt="" />
 </div>
 
-###Optimization algorithms 
+### Optimization algorithms 
 
 The aim of training a neural network model is to reduce the value of the loss function. The optimization algorithms are used to update the value of the model parameters 
 and then to decrease the value of the loss function. There are many optimization algorithms such as Stochastic Gradient Descent (SGD), Adam (Adaptive Moment Estimation)...
 
-###Overfitting problem
+### Overfitting problem
 
 Overfitting occurs when the training error is low but the validation error is significantly higher. Thus, the model can only predict the training data well but is not able to predict new unseen data.
 Dropout is a technique to deal with the overfitting problem. Dropout technique is considered as a way to drop out neurons in a hidden layer. Dropping neural neurons out indicates temporarily 
 removing the neurons and their corresponding incoming and outgoing connections in the neural network.
 
-##Neural Network architectures
+## Neural Network architectures
 
 In this section, we will present a brief overview of the most common neural network architectures.
 
-###Recurrent Neural Network
+### Recurrent Neural Network
 
 Recurrent Neural Network (RNN) is a type of deep neural network. RNN model is good at processing sequence data such as text or sequences. RNN model can be categorized into four different 
 types. There are one-to-one RNN model, one-to-many RNN model, many-to-one RNN model, and many to-many RNN model.  These models are designed to deal with corresponding specific tasks.
@@ -106,14 +106,14 @@ memory of the previous elements.
 However, RNN has the vanishing/exploding gradient problem. When training the network, the gradient values are used for updating the weights of the neural network. It may cause either very small 
 weights or very large weights which will respectively cause the vanishing or exploding gradient problem. To solve that, a well-known variant of RNN was proposed:  the Long Short Term Memory (LSTM). 
 
-###Convolutional Neural Network
+### Convolutional Neural Network
 
 Convolutional Neural Network (CNN) is another type of neural network which is inspired by the human visual nervous system. CNN model consists of convolutional layer, hidden layer, pooling layer 
 and fully connected layer. It is usually applied in image classification and recognition.
 
 For a good understanding of RNN and CNN, it is strongly recommended to check up other tutorials especially focused on them.
 
-##Data
+## Data
 
 Dataset is required for training deep learning model.  60% of the original dataset must be used to train the model (training dataset), while 20% are used for validation (validation dataset). 
 This dataset does not contribute to the weights updating contrary to the training dataset which is intended to find the right weights. It is used to check if overfitting happens. The remaining 20% 
@@ -124,7 +124,7 @@ It is obviously necessary to have good training dataset which often requires fil
 The data used for feeding deep learning system comes from anywhere. It may be extracted from companies’s databases or all kinds of various sources: 
 connected objects, smartphone, open data…. On the images side, there is for example ImageNet. In language, there is WordNet and MNIST (handwriting).
 
-##Types of learning
+## Types of learning
 
 Learning is the most important task in deep learning. There are three main types of learning: supervised learning, unsupervised learning and semi-supervised learning. They differ in 
 their approach and can be used depending on the problem to solve. 
@@ -133,13 +133,13 @@ Supervised learning uses labeled dataset, the system observes the input - label 
 Unsupervised learning system learns without labeled input. No labels are given to the learning algorithm.
 Semi-supervised learning uses small amount of labeled data with a large amount of unlabeled data. 
 
-##Hardware
+## Hardware
 
 Training the neural network must be done on a computer with particular specifications. The given training times for the neural network are referring to the set of hardware. Other hardware 
 configurations will obviously train the same neural network, with the same dataset, faster or slower depending on the performance. The most influential hardware part regarding the 
 training time is the Graphical Processor Unit (GPU). 
 
-##What is PyTorch?
+## What is PyTorch?
 
 PyTorch is an open source machine learning framework that is based on Python and used for applications such as computer vision, natural language processing… It is developed and 
 maintained by Facebook. Through using this framework, the difficulty of implementing a neural network is decreased. It contains common deep learning modules and many sub-libraries 
@@ -152,7 +152,7 @@ to develop methods for solving practical problems involving language, such as in
 
 For this NLP application, we will use the TorchText library. 
 
-##Setting up the environment
+## Setting up the environment
 
 Before we get stated, check if your hardware can handle PyTorch. Below is my hardware configuration. You can consider it as a minimum requirement and take it as a reference.
 OS: Windows7
@@ -197,7 +197,7 @@ tensor([[0., 1., 2.],
 
 Another alternative for installing PyTorch is to use Conda.
 
-##Application
+## Application
 
 Tensors are the base data structures of PyTorch which are used for building different types of neural network. They can be considered as multi-dimensional matrices 
 that contain elements of a single data type. 
@@ -211,7 +211,7 @@ Now, we have to import all the necessary libraries required to build our model. 
 - The torch package is used for mathematical operations on multi-dimensional tensors.
 - TorchText is a NLP library. It contains scripts for preprocessing text.
 
-###How to manipulate data and pass it to the neural network inputs?
+### How to manipulate data and pass it to the neural network inputs?
 
 Deep learning models do not work with the text directly. The texts need to be transformed into a representation that is suitable for processing by the model.
 Before you start training our model, we have to:
@@ -290,7 +290,7 @@ batch_size = BATCH_SIZE, sort_key = lambda x: len(x.question_text),
 
 There is no standard value for the batch size but this is generally: 8, 16, 32, 64…
 
-###Define the model
+### Define the model
 
 It is now time to define the architecture of our model. The base class for all neural network models is torch.nn.Module. This means that every model must be a subclass of the nn module.
 
@@ -377,7 +377,7 @@ If you are using a GPU for training, you should have sent the model to the GPU.
 model.to(device)
 ```
 
-###Training and evaluation
+### Training and evaluation
 
 Now we will code our training loop. 
 model.train() is used to put the model in training mode. We have to iterate over all training data once per epoch and load individual batch. 
@@ -465,7 +465,7 @@ test_loss, test_acc = evaluate(model, test_iterator, criterion)
 
 For more detailed information about this example, see the full code.
 
-##Conclusion
+## Conclusion
 
 The values of hyper-parameters must be set manually. These parameters change the training and test error. Examples of hyper-parameters are:
 - Number of neurons in a layer.
