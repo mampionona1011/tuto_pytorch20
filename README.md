@@ -1,4 +1,4 @@
-# Pytorch tutorial for beginners
+# PyTorch tutorial for beginners
 
 Nowadays, Artificial Intelligence is everywhere. We can find it in tools that we use in our daily existence. From electronic games, 
 online commercial services, medical diagnosis to autonomous cars, Artificial Intelligence is here for improving our life.
