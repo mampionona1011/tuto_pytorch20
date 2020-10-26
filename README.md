@@ -222,10 +222,10 @@ Before you start training our model, we have to:
 
 Fortunately, we have TorchText for making all the above processing much easier.
 
-Here, we will not give a detailed explanation of object's arguments that we will use. Feel free to find more information on the online official documentation at: https://pytorch.org/text/ 
+Here, we will not give a detailed explanation of objects and arguments that we will use. Feel free to find more information on the online official documentation at: https://pytorch.org/text/ 
 
 Let us see how to preprocess text using Field object. It is used to specify preprocessing steps for each column in the dataset. Field has different arguments such as:
-- sequential: if the datatype represents sequential data 
+- sequential: tell TorchText that the data is sequential or not 
 - tokenize: break sentence into list of words
 - lower: convert word to lowercase
 
@@ -253,42 +253,47 @@ value is a field object defined above.  The fields we pass in must be in the sam
 fields = [("question_text", TEXT),("label", LABEL)]
 ```
 
-In the following code, we load the training dataset in using the TabularDataset object which is convenient for csv file. We have to define the field objects. 
-The same code will be used for validation and test dataset.
+In the following code, we load the training, validation and test datasets in using the TabularDataset object which is convenient for csv file. We can load all at once using the
+method splits(). We have to define the path to the csv files, the format, the fields objects and skip the first line in the files. 
 
 ```python
 from torchtext.data import TabularDataset
 
-train_data = TabularDataset(path = 'train.csv',format = 'csv',fields = fields,skip_header = True)
+train_data, valid_data, test_data = TabularDataset.splits(path = "data/",
+    train = 'train.csv', validation = 'validation.csv', test = 'test.csv',
+    format = 'csv', fields = fields, skip_header = True)
 ```
 
-The next step is to build the vocabulary. It consists of mapping words to integers. To each unique word is assigned an index. We apply build_vocab to the training data to generate a vocabulary list.
-
+The next step is to build the vocabulary. It consists of mapping words to integers. To each unique word is assigned an index. Vocabulary will be built on the text in the training dataset
+and two tokens <unk> and <pad> will be added at the beginning of the vocabulary list. <unk> is used for replacing words which are not in vocabulary. <pad> will be explained later. 
+ 
 ```python
 TEXT.build_vocab(train_data)
 ```
 
-Note that if a GPU is available, you can set the device to GPU otherwise you can leave it to CPU. 
+Before we start the batching process step, it is important to note that if a GPU is available, you can set the device to GPU otherwise you can leave it to CPU. 
+We will use the variable defined below later in our code.
 
 ```python
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 ```
 
-We will use this device variable later in our code.
-
 Now we can start the batching process for training the model. The Iterator object forms the batches. The BucketIterator object automatically shuffles and pads the input sequences to be on the same length.
+The token <pad>, mentioned above, ensures that any shorter sequences than the longest within the batch are padded. 
 Below is the code which initializes the Iterator for the train, validation and test data.	
 
 ```python
 from torchtext.data import BucketIterator
 
-train_iterator, valid_iterator = BucketIterator.splits(
-    (train_data, valid_data, test_data), 
-batch_size = BATCH_SIZE, sort_key = lambda x: len(x.question_text),
-    sort_within_batch = True, device = device)
+train_iterator, valid_iterator, test_iterator = BucketIterator.splits(
+    (train_data, valid_data, test_data), batch_size = BATCH_SIZE,
+    sort_key = lambda x: len(x.question_text),
+    sort_within_batch = True,
+	device = device)
 ```
 
 There is no standard value for the batch size but this is generally: 8, 16, 32, 64…
+sort_within_batch sorts the data according to the sort_key ie their lengths.
 
 ### Define the model
 
@@ -340,9 +345,11 @@ Let us understand in detail about the different layers used for building the arc
 forward(): it defines the forward pass of the inputs.
 The input of the model is a batch. In this example, a batch can be represented like that:
 
+```python
 [torchtext.data.batch.Batch of size 64]
-[.question_text]:[torch.LongTensor of size 14x64]
-[.label]:[torch.FloatTensor of size 64]
+	[.question_text]:[torch.LongTensor of size 14x64]
+	[.label]:[torch.FloatTensor of size 64]
+```
 
 The input batch is a tensor of size [sentence_length, batch_size] and then passed through the embedding layer which gives a dense vector 
 representation of our sentences.
