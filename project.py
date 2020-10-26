@@ -19,10 +19,9 @@ LABEL = Field(sequential = False, use_vocab = False, dtype=torch.float)
 fields = [("question_text", TEXT),("label", LABEL)]
 
 #load datasets
-train_data = TabularDataset(path = 'data/train.csv',format = 'csv',fields = fields,skip_header = True)
-valid_data = TabularDataset(path = 'data/validation.csv',format = 'csv',fields = fields,skip_header = True)
-test_data = TabularDataset(path='data/test.csv',format='csv', skip_header=True, fields=fields)
-
+train_data, valid_data, test_data = TabularDataset.splits(path = "data/",
+    train = 'train.csv', validation = 'validation.csv', test = 'test.csv',
+    format = 'csv', fields = fields, skip_header = True)
 
 ##print(len(train_data))
 ##print(len(valid_data))
@@ -31,9 +30,15 @@ test_data = TabularDataset(path='data/test.csv',format='csv', skip_header=True, 
 #build vocabulary 
 TEXT.build_vocab(train_data)
 
-print('Vocabualry size: ', len(TEXT.vocab))
+print('Vocabulary size: ', len(TEXT.vocab))
 print('First example: ', vars(train_data.examples[0]))
 
+#print(train_data[0])
+#print(train_data[0].question_text)
+#print(TEXT.vocab.stoi['world'])
+#print(TEXT.vocab.itos[0])
+
+#set device
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 #set batch size
@@ -42,7 +47,7 @@ BATCH_SIZE = 64
 #load iterator
 train_iterator, valid_iterator, test_iterator = BucketIterator.splits(
     (train_data, valid_data, test_data), 
-    batch_size = BATCH_SIZE ,
+    batch_size = BATCH_SIZE,
     sort_key = lambda x: len(x.question_text),
     sort_within_batch = True,
     device = device)
